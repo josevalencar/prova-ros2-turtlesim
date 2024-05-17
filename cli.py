@@ -1,28 +1,14 @@
-# Prova
+import rclpy
+from rclpy.node import Node
 
-Este repositório é responsável por estabelecar uma comunicação com ROS através publishers e filas em um tópico.
+from geometry_msgs.msg import Twist
 
-## Como executar
+import sys
 
-Após rodar o turtlesim com: 
-```bash
-ros2 run turtlesim turtlesim_node
-```
+from collections import deque
 
+dq = deque()
 
-Pode-se rodar o arquivo deste repositório com:
-
-```bash 
-python3 cli.py 0.0 1.0 0.0 1000
-```
-
-Onde os argumentos 1, 2, 3 e 4 referem-se a vx vy vtheta tempo_em_ms, respectivamente. 
-
-
-## Código 
-O código abaixo é responsável por criar uma classe TurtleController através de um Nó do ROS, que cria um publisher, uma função de enviar valores e um timer_callback. 
-
-```python
 class TurtleController(Node):
     def __init__(self):
         super().__init__('turtle_controller') 
@@ -44,10 +30,7 @@ class TurtleController(Node):
         self.send_cmd_vel(float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3])) 
 
         self.timer.cancel()
-```
-ESta função main é responsável por estanciar a classe e adicionar ao deque da fila. 
 
-```python 
 def main(args=None):
     rclpy.init(args=args)
     tc = TurtleController()
@@ -58,8 +41,7 @@ def main(args=None):
     rclpy.spin(tc)
     tc.destroy_node()
     rclpy.shutdown()
-```
 
-## Demonstração
-
-![imagem](./image.png)
+if __name__ == "__main__":
+    main()
+    
